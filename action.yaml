@@ -1,0 +1,51 @@
+name: 'Download '
+description: 'Download a GPG encrypted text file of any plain text provided to the action.'
+author: Viorel Petcu
+inputs:
+  gpg_public_key:
+    description: 'GPG Public Key for Encryption'
+    required: true
+  plain_text:
+    description: 'The text you want to encrypt'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Install GPG
+      run: sudo apt-get install -y gnupg
+      shell: bash
+
+    - name: Import GPG Public Key
+      run: |
+        echo "${{ inputs.gpg_public_key }}" | gpg --import > /dev/null
+      shell: bash
+
+    - name: Prepare Text
+      run: |
+        echo "${{ inputs.plain_text }}" > plain_text.txt
+      shell: bash
+
+    - name: Encrypt Text
+      run: |
+        gpg --encrypt --trust-model always --recipient $(gpg --list-keys | grep -oP "(?<=<).*(?=>)") plain_text.txt
+      shell: bash
+
+    - name: Upload Encrypted Text File
+      id: upload
+      uses: actions/upload-artifact@v4
+      with:
+        name: encrypted_text_file
+        path: plain_text.txt.gpg
+
+    - name: Notify User about the Artifact
+      id: output
+      run: |
+        echo "### Download the file and decrypt it using the provided private key" >> $GITHUB_STEP_SUMMARY
+        echo "### URL: ${{ steps.upload.outputs.artifact-url	}}" >> $GITHUB_STEP_SUMMARY
+        echo "### Enjoy!" >> $GITHUB_STEP_SUMMARY
+      shell: bash
+
+branding:
+  icon: 'box'
+  color: 'yellow'
