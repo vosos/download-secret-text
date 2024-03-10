@@ -1,14 +1,21 @@
 # Download Secret Text
 
-The Download Secret Text is a powerful GitHub Action designed for developers who need a robust solution for encrypting sensitive information. Whether you're taking over a repository without documented secrets or simply securing your project's data, this action uses GPG encryption to ensure your secrets remain safe. Alongside tools like the [Mystery Token Explorer](https://github.com/marketplace/actions/mystery-token-explorer), it forms a crucial part of your security and forensics toolkit, allowing for the encryption of any text, including repository secrets, into a GPG-encrypted format.
+The Download Secret Text  GitHub Action is designed for developers who need a robust solution for encrypting sensitive information. Whether you're taking over a repository without documented secrets or simply securing your project's data, this action uses GPG encryption to ensure your secrets remain safe. Alongside tools like the [Mystery Token Explorer](https://github.com/marketplace/actions/mystery-token-explorer), it forms a crucial part of your security and forensics toolkit, allowing for the encryption of any text, including repository secrets, into a GPG-encrypted format.
 
 ## Highlights
 - **GPG Encryption:** Securely encrypts provided text using a GPG public key.
 - **Versatile Use:** Ideal for encrypting repository secrets or any sensitive information.
+- **Downloadable** encrypted file. (look for it in the `summary`)
+
+![downloadable encrypted file](/screenshots/download-artifact.png)
 
 ## Inputs
 - `gpg_public_key`: Your GPG public key.
 - `plain_text`: Text to encrypt.
+
+## Generating a GPG key pair
+
+GitHub's own [***T U T O R I A L***](https://docs.github.com/en/authentication/managing-commit-signature-verification/generating-a-new-gpg-key#generating-a-gpg-key) is a great resource to help you setup a GPG key pair. The `public` part of that key is what you will have to provide to this action. The `private` part of the key and your personal `secret` is what makes the decryption possible. 
 
 ## Examples
 ```yaml
