@@ -1,4 +1,4 @@
-name: 'Download '
+name: 'Download Secret Text'
 description: 'Download a GPG encrypted text file of any plain text provided to the action.'
 author: Viorel Petcu
 inputs:
